@@ -175,11 +175,18 @@ class InputToolbarState extends State<InputToolbar>
 
   void _showMentionModal(List<Widget> children) {
     final OverlayState overlay = Overlay.of(context);
-    final RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final Offset topLeftCornerOffset = renderBox.localToGlobal(Offset.zero);
+    final RenderBox overlayRenderBox =
+        overlay.context.findRenderObject() as RenderBox;
+    final RenderBox toolbarRenderBox = context.findRenderObject() as RenderBox;
 
-    double bottomPosition =
-        MediaQuery.of(context).size.height - topLeftCornerOffset.dy;
+    final double toolbarOffsetY =
+        toolbarRenderBox.localToGlobal(Offset.zero).dy;
+    final double overlayOffsetY =
+        overlayRenderBox.localToGlobal(Offset.zero).dy;
+
+    final double toolbarTopOffset = toolbarOffsetY - overlayOffsetY;
+
+    double bottomPosition = overlayRenderBox.size.height - toolbarTopOffset;
     if (widget.inputOptions.inputToolbarMargin != null) {
       bottomPosition -= widget.inputOptions.inputToolbarMargin!.top -
           widget.inputOptions.inputToolbarMargin!.bottom;
@@ -190,7 +197,7 @@ class InputToolbarState extends State<InputToolbar>
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Positioned(
-          width: renderBox.size.width,
+          width: toolbarRenderBox.size.width,
           bottom: bottomPosition,
           child: Container(
             constraints: BoxConstraints(
