@@ -2,6 +2,7 @@ library dash_chat_2;
 
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -32,6 +33,7 @@ part 'src/widgets/input_toolbar/input_toolbar.dart';
 part 'src/widgets/message_list/default_date_separator.dart';
 part 'src/widgets/message_list/default_scroll_to_bottom.dart';
 part 'src/widgets/message_list/message_list.dart';
+part 'src/widgets/message_row/audio_player.dart';
 part 'src/widgets/message_row/default_avatar.dart';
 part 'src/widgets/message_row/default_message_decoration.dart';
 part 'src/widgets/message_row/default_message_text.dart';

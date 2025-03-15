@@ -32,6 +32,18 @@ class MediaContainer extends StatelessWidget {
       child: const CircularProgressIndicator(),
     );
     switch (media.type) {
+      case MediaType.audio:
+        return Stack(
+          alignment: AlignmentDirectional.bottomEnd,
+          children: <Widget>[
+            AudioPlayerWidget(
+              url: media.url,
+              key: Key(media.url),
+              audioControlColor: messageOptions.audioControlColor(context),
+            ),
+            if (media.isUploading) loading
+          ],
+        );
       case MediaType.video:
         return Stack(
           alignment: AlignmentDirectional.bottomEnd,
@@ -103,11 +115,16 @@ class MediaContainer extends StatelessWidget {
             final double gallerySize =
                 (MediaQuery.of(context).size.width * 0.7) / 2 - 5;
             final bool isImage = m.type == MediaType.image;
+            final bool isAudio = m.type == MediaType.audio;
             return Container(
               color: Colors.transparent,
               margin: const EdgeInsets.only(top: 5, right: 5),
-              width: media.length > 1 && isImage ? gallerySize : null,
-              height: media.length > 1 && isImage ? gallerySize : null,
+              width: isAudio
+                  ? min(MediaQuery.of(context).size.width * 0.9, 250)
+                  : (media.length > 1 && isImage ? gallerySize : null),
+              height: isAudio
+                  ? 70
+                  : (media.length > 1 && isImage ? gallerySize : null),
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height * 0.5,
                 maxWidth: MediaQuery.of(context).size.width * 0.7,
@@ -130,8 +147,10 @@ class MediaContainer extends StatelessWidget {
                     child: _getMedia(
                       context,
                       m,
-                      media.length > 1 ? gallerySize : null,
-                      media.length > 1 ? gallerySize : null,
+                      isAudio ? 70 : (media.length > 1 ? gallerySize : null),
+                      isAudio
+                          ? min(MediaQuery.of(context).size.width * 0.9, 250)
+                          : (media.length > 1 ? gallerySize : null),
                     ),
                   ),
                 ),

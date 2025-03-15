@@ -15,6 +15,7 @@ class MessageOptions {
     this.onPressMention,
     Color? currentUserContainerColor,
     Color? currentUserTextColor,
+    Color? audioControlColor,
     this.containerColor = const Color(0xFFF5F5F5),
     this.textColor = Colors.black,
     this.messagePadding = const EdgeInsets.all(11),
@@ -42,6 +43,7 @@ class MessageOptions {
     Color? timeTextColor,
   })  : _currentUserContainerColor = currentUserContainerColor,
         _currentUserTextColor = currentUserTextColor,
+        _audioControlColor = audioControlColor,
         _currentUserTimeTextColor = currentUserTimeTextColor,
         _timeTextColor = timeTextColor;
 
@@ -121,6 +123,18 @@ class MessageOptions {
   ///
   /// Default to: `Colors.grey.shade100`
   final Color containerColor;
+
+  /// Color of the audio player button
+  ///
+  /// Default to: `Colors.grey.shade100`
+  final Color? _audioControlColor;
+
+  /// Used to calculate [audioPlayerButtonColor]
+  ///
+  /// Default to: `Colors.grey.shade100`
+  Color audioControlColor(BuildContext context) {
+    return _audioControlColor ?? Theme.of(context).colorScheme.primary;
+  }
 
   /// Color of the other users text in chat bubbles
   ///
